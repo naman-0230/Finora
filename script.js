@@ -1,61 +1,76 @@
 //DOM selection 
 const form =
-  document.querySelector("#transaction-form");
+    document.querySelector("#transaction-form");
 
 const descriptionInput =
-  document.querySelector("#description");
+    document.querySelector("#description");
 
 const amountInput =
-  document.querySelector("#amount");
+    document.querySelector("#amount");
 
 const categoryInput =
-  document.querySelector("#category");
+    document.querySelector("#category");
 
 const typeInput =
-  document.querySelector("#type");
+    document.querySelector("#type");
 
 const dateInput =
-  document.querySelector("#date");
+    document.querySelector("#date");
 
 const noteInput =
-  document.querySelector("#note");
+    document.querySelector("#note");
 
 const transactionList =
-  document.querySelector(".transaction-list");
+    document.querySelector(".transaction-list");
 
 const emptyState =
-  document.querySelector(".empty-state");
+    document.querySelector(".empty-state");
 
-  //for default date of today
-  dateInput.valueAsDate = new Date();
+//for default date of today
+dateInput.valueAsDate = new Date();
 
-  //main storing array
-  let transactions = [];
-  //main submit listener
-  form.addEventListener("submit", function(event){
+//main storing array
+let transactions = [];
+//main submit listener
+form.addEventListener("submit", function (event) {
 
     event.preventDefault();
     addTransaction();
-  });
+});
 
 
-  //getting values from inputs
-  function addTransaction(){
+//getting values from inputs
+function addTransaction() {
+    //minimal validation for now 
+    const description = descriptionInput.value.trim();
+    
+    const amount = Number(amountInput.value);
+     
+    if (
+        !description ||
+        !amount ||
+        amount <= 0
+    ) {
+        alert("Please enter valid transaction details.");
+        return;
+    }
+
+    //normal object creation
     const transaction = {
 
-    id: Date.now(),  //imp new id set by time stamps
+        id: Date.now(),  //imp new id set by time stamps
 
-    description: descriptionInput.value.trim(),
-      
-    amount: Number(amountInput.value),
-        
-    category: categoryInput.value,
-    
-    type: typeInput.value,
-    
-    date: dateInput.value,
-    
-    note: noteInput.value.trim()
+        description: description,
+
+        amount: amount,
+
+        category: categoryInput.value,
+
+        type: typeInput.value,
+
+        date: dateInput.value,
+
+        note: noteInput.value.trim()
     };
 
     transactions.push(transaction);
@@ -68,4 +83,3 @@ const emptyState =
     dateInput.valueAsDate = new Date();
 
 };
-  
