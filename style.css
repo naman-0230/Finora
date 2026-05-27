@@ -4,14 +4,23 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
+
 
 
 /* THEME VARIABLES */
 
 :root{
 
-  --bg: #0f1115;
+  --bg-color: #0f1115;
+  --bg-gradient: none;
+
   --card: rgba(255,255,255,0.06);
 
   --text: #ffffff;
@@ -37,7 +46,9 @@
 
 [data-theme="light"]{
 
-  --bg: #f5f7fb;
+  --bg-color: #f5f7fb;
+  --bg-image: none;
+  --bg-gradient: none;
 
   --card: rgba(255,255,255,0.8);
 
@@ -59,14 +70,16 @@
 
 [data-theme="neon"]{
 
-  --bg:
+  --bg-color: #081120;
+  --bg-image: none;
+  --bg-gradient:
     linear-gradient(
-      135deg,
-      #081120,
-      #140b29
-    );
+    135deg,
+    #081120,
+    #140b29
+  );
 
-  --accent: #00f5ff;
+  --accent: #08969b;
 
   --dropdown-bg: #111827;
 
@@ -82,9 +95,10 @@ body{
 
   min-height: 100vh;
 
-  background:
+  background-color: var(--bg-color);
+  background-image:
     var(--bg-image),
-    var(--bg);
+    var(--bg-gradient);
 
   background-size: cover;
   background-position: center;
@@ -145,6 +159,8 @@ button{
   border: none;
 
   cursor: pointer;
+
+  font: inherit;
 }
 
 .theme-btn,
