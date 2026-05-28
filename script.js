@@ -116,6 +116,7 @@ function addTransaction() {
 
     renderTransactions();
     updateBalance();
+    renderCharts();
 
     selectedTypo = "income";
 
@@ -246,6 +247,7 @@ function deleteTransaction(id) {
 
     renderTransactions();
     updateBalance();
+    renderCharts();
     console.log(transactions.length);
 }
 
@@ -311,13 +313,9 @@ function editTransaction(id) {
         behavior: "smooth",
         block: "center"
     });
-    
+
 
 }
-
-
-
-
 
 
 
@@ -430,10 +428,142 @@ function getFilteredTransactions() {
 }
 
 
+let expenseChart;
+
+function renderCharts() {
+
+    const categoryMap = {};
+
+    transactions.forEach(transaction => {
+
+        if (transaction.type !== "expense") return;
+
+        const category = transaction.category;
+
+        if (categoryMap[category]) {
+            categoryMap[category] += transaction.amount;
+        }
+
+        else {
+            categoryMap[category] = transaction.amount;
+        }
+
+    });
+
+    const labels = Object.keys(categoryMap);
+
+    const data = Object.values(categoryMap);
+
+    const ctx = document.getElementById("expenseChart");
+
+
+
+    /*
+      CREATE ONLY ONCE
+    */
+
+    if (!expenseChart) {
+
+        expenseChart = new Chart(ctx, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    data: data,
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                animation: {
+
+                    duration: 800
+
+                },
+
+                layout: {
+
+                    padding: 10
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        position: "right",
+
+                        align: "center",
+
+                        labels: {
+
+                            color: getComputedStyle(document.documentElement)
+                                .getPropertyValue("--secondary-text"),
+
+                            usePointStyle: true,
+
+                            pointStyle: "circle",
+
+                            boxWidth: 10,
+
+                            boxHeight: 10,
+
+                            padding: 14,
+
+                            font: {
+
+                                size: 13,
+
+                                weight: 500,
+
+                                family: "Inter"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+    else {
+
+        expenseChart.data.labels = labels;
+
+        expenseChart.data.datasets[0].data = data;
+
+        expenseChart.update();
+
+    }
+
+}
+
+
 
 
 
 renderTransactions();
 updateBalance();
+renderCharts();
 
 
