@@ -76,7 +76,7 @@ function addTransaction() {
     //normal object creation
     const transaction = {
 
-        id: Date.now(),  //imp new id set by time stamps
+        id: editTransactionId || Date.now(),      //imp new id set by time stamps
 
         description: description,
 
@@ -90,8 +90,22 @@ function addTransaction() {
 
         note: noteInput.value.trim()
     };
+    //for updating existing value if there is edit
+    if (editTransactionId) {
 
-    transactions.push(transaction);
+        transactions = transactions.map(function (targetTransaction) {
+
+            if (targetTransaction.id === editTransactionId) {
+                return transaction;
+            }
+
+            return targetTransaction;
+        });
+    }
+    else {
+        transactions.push(transaction);
+    }
+
     console.log(transactions);
 
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -115,6 +129,12 @@ function addTransaction() {
         }
 
     });
+
+
+    //for resetting edit button
+    editTransactionId = null;
+
+    document.querySelector(".submit-btn").textContent = "Add Transaction";
 
 }
 
@@ -229,6 +249,78 @@ function deleteTransaction(id) {
     console.log(transactions.length);
 }
 
+
+//FOR EDIT BUTTON
+let editTransactionId = null;
+
+document.addEventListener("click", function (event) {
+
+    if (event.target.classList.contains("edit-btn")) {
+
+        const id = Number(event.target.dataset.id);
+
+        editTransaction(id);
+    }
+
+});
+
+
+function editTransaction(id) {
+
+    const Targettransaction = transactions.find(function (t) {
+        return t.id === id;
+    });
+
+    if (!Targettransaction) {
+        return;
+    }
+
+    // fill form
+    descriptionInput.value = Targettransaction.description;
+
+    amountInput.value = Targettransaction.amount;
+
+    categoryInput.value = Targettransaction.category;
+
+    dateInput.value = Targettransaction.date;
+
+    noteInput.value = Targettransaction.note;
+
+    // type state
+    selectedTypo = Targettransaction.type;
+
+    // update active button UI
+    typeButtons.forEach(function (btn) {
+
+        btn.classList.remove("active");
+
+        if (btn.dataset.type === Targettransaction.type) {
+            btn.classList.add("active");
+        }
+
+    });
+
+    // save edit mode
+    editTransactionId = id;
+
+    // change submit button text
+    document.querySelector(".submit-btn").textContent = "Update Transaction";
+
+
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+    
+
+}
+
+
+
+
+
+
+
 //DOM for balancing
 
 const incomeEl =
@@ -272,7 +364,7 @@ function updateBalance() {
 
 }
 
-//for filters and search
+//FOR FILTERS AND SEARCH
 
 let selectedType = "all";
 let selectedCategory = "all";
@@ -336,6 +428,8 @@ function getFilteredTransactions() {
         return matchType && matchCategory && matchSearch;
     });
 }
+
+
 
 
 
