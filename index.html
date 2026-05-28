@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="sakura-cliff">
+<html lang="en" data-theme="ink-phantom">
 
 <head>
     <meta charset="UTF-8" />
@@ -116,27 +116,32 @@
                         <input id="amount" type="number" placeholder="Enter amount">
                     </div>
 
+                    <!-- Form Category dropdown -->
                     <div class="form-group">
                         <label>Category</label>
-
-                        <select id="category">
-                            <option value="food">Food</option>
-                            <option value="transport">Transport</option>
-                            <option value="shopping">Shopping</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="bills">Bills</option>
-                            <option value="health">Health</option>
-                            <option value="education">Education</option>
-                            <option value="salary">Salary</option>
-                            <option value="freelance">Freelance</option>
-                            <option value="investment">Investment</option>
-                            <option value="travel">Travel</option>
-                            <option value="subscriptions">Subscriptions</option>
-                            <option value="rent">Rent</option>
-                            <option value="gifts">Gifts</option>
-                            <option value="savings">Savings</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <div class="custom-dropdown" id="category-dropdown">
+                            <div class="dropdown-selected">Food</div>
+                            <div class="dropdown-list">
+                                <div class="dropdown-item" data-value="food">Food</div>
+                                <div class="dropdown-item" data-value="transport">Transport</div>
+                                <div class="dropdown-item" data-value="shopping">Shopping</div>
+                                <div class="dropdown-item" data-value="entertainment">Entertainment</div>
+                                <div class="dropdown-item" data-value="bills">Bills</div>
+                                <div class="dropdown-item" data-value="health">Health</div>
+                                <div class="dropdown-item" data-value="education">Education</div>
+                                <div class="dropdown-item" data-value="salary">Salary</div>
+                                <div class="dropdown-item" data-value="freelance">Freelance</div>
+                                <div class="dropdown-item" data-value="investment">Investment</div>
+                                <div class="dropdown-item" data-value="travel">Travel</div>
+                                <div class="dropdown-item" data-value="subscriptions">Subscriptions</div>
+                                <div class="dropdown-item" data-value="rent">Rent</div>
+                                <div class="dropdown-item" data-value="gifts">Gifts</div>
+                                <div class="dropdown-item" data-value="savings">Savings</div>
+                                <div class="dropdown-item" data-value="other">Other</div>
+                            </div>
+                            <!-- hidden input so your JS still reads #category -->
+                            <input type="hidden" id="category" value="food">
+                        </div>
                     </div>
 
                 </div>
@@ -216,26 +221,29 @@
                     </div>
 
                     <!-- CATEGORY (compact dropdown) -->
-                    <div class="select-wrapper">
-                        <select id="category-filter" class="custom-select">
-                            <option value="all">Category</option>
-                            <option value="food">Food</option>
-                            <option value="transport">Transport</option>
-                            <option value="shopping">Shopping</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="bills">Bills</option>
-                            <option value="health">Health</option>
-                            <option value="education">Education</option>
-                            <option value="salary">Salary</option>
-                            <option value="freelance">Freelance</option>
-                            <option value="investment">Investment</option>
-                            <option value="travel">Travel</option>
-                            <option value="subscriptions">Subscriptions</option>
-                            <option value="rent">Rent</option>
-                            <option value="gifts">Gifts</option>
-                            <option value="savings">Savings</option>
-                            <option value="other">Other</option>
-                        </select>
+                    <!-- Filter Category dropdown (inside .select-wrapper) -->
+                    <div class="custom-dropdown" id="category-filter-dropdown">
+                        <div class="dropdown-selected">Category</div>
+                        <div class="dropdown-list">
+                            <div class="dropdown-item" data-value="all">Category</div>
+                            <div class="dropdown-item" data-value="food">Food</div>
+                            <div class="dropdown-item" data-value="transport">Transport</div>
+                            <div class="dropdown-item" data-value="shopping">Shopping</div>
+                            <div class="dropdown-item" data-value="entertainment">Entertainment</div>
+                            <div class="dropdown-item" data-value="bills">Bills</div>
+                            <div class="dropdown-item" data-value="health">Health</div>
+                            <div class="dropdown-item" data-value="education">Education</div>
+                            <div class="dropdown-item" data-value="salary">Salary</div>
+                            <div class="dropdown-item" data-value="freelance">Freelance</div>
+                            <div class="dropdown-item" data-value="investment">Investment</div>
+                            <div class="dropdown-item" data-value="travel">Travel</div>
+                            <div class="dropdown-item" data-value="subscriptions">Subscriptions</div>
+                            <div class="dropdown-item" data-value="rent">Rent</div>
+                            <div class="dropdown-item" data-value="gifts">Gifts</div>
+                            <div class="dropdown-item" data-value="savings">Savings</div>
+                            <div class="dropdown-item" data-value="other">Other</div>
+                        </div>
+                        <input type="hidden" id="category-filter" value="all">
                     </div>
 
                 </div>

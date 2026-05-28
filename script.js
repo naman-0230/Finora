@@ -984,6 +984,69 @@ function renderTrendChart() {
 }
 
 
+// ── Custom Dropdown Logic ──
+function initCustomDropdown(dropdownId, onChange) {
+  const dropdown = document.getElementById(dropdownId);
+  if (!dropdown) return;
+
+  const selected = dropdown.querySelector('.dropdown-selected');
+  const list     = dropdown.querySelector('.dropdown-list');
+  const hidden   = dropdown.querySelector('input[type="hidden"]');
+  const items    = dropdown.querySelectorAll('.dropdown-item');
+
+  // Mark first item as selected
+  items[0]?.classList.add('selected');
+
+  selected.addEventListener('click', (e) => {
+    e.stopPropagation();
+    // Close all other dropdowns first
+    document.querySelectorAll('.custom-dropdown.open').forEach(d => {
+      if (d !== dropdown) d.classList.remove('open');
+    });
+    dropdown.classList.toggle('open');
+  });
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const value = item.dataset.value;
+      const label = item.textContent;
+
+      selected.textContent = label;
+      selected.insertAdjacentHTML('beforeend',
+        '<span style="display:none">▾</span>'); // keep ::after working
+
+      hidden.value = value;
+
+      items.forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+
+      dropdown.classList.remove('open');
+
+      // Rebuild ::after (it disappears when we set textContent)
+      // Simpler: just keep the arrow via CSS ::after, textContent is fine
+      selected.textContent = label;
+
+      if (onChange) onChange(value);
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener('click', () => dropdown.classList.remove('open'));
+}
+
+// Init both dropdowns
+document.addEventListener('DOMContentLoaded', () => {
+  initCustomDropdown('category-dropdown');
+
+  initCustomDropdown('category-filter-dropdown', (value) => {
+    // Trigger your existing filter logic
+    // If your filter listens to 'change' on #category-filter, dispatch it:
+    const hiddenInput = document.getElementById('category-filter');
+    hiddenInput.dispatchEvent(new Event('change'));
+  });
+});
+
+
 
 renderTransactions();
 updateBalance();
