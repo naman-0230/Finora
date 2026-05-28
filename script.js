@@ -472,6 +472,14 @@ function renderExpenseChart() {
 
     const data = Object.values(categoryMap);
 
+    if (data.length === 0) {
+
+        labels.push("No Data");
+
+        data.push(1);
+
+    }
+
     const ctx = document.getElementById("expenseChart");
 
 
@@ -494,7 +502,43 @@ function renderExpenseChart() {
 
                     data: data,
 
-                    borderWidth: 0
+                    borderWidth: 0,
+
+                    backgroundColor:
+
+                        data.length === 1 && labels[0] === "No Data"
+
+                            ? [
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-empty")
+
+                            ]
+
+                            : [
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-1"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-2"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-3"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-4"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-5"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-6"),
+
+                                getComputedStyle(document.documentElement)
+                                    .getPropertyValue("--chart-7")
+
+                            ]
 
                 }]
 
@@ -721,6 +765,174 @@ function renderComparisonChart() {
 
 }
 
+function renderTrendChart() {
+
+    const monthlyMap = {};
+    transactions.forEach(transaction => {
+
+        if (transaction.type !== "expense") return;
+
+        const date = new Date(transaction.date);
+
+        const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+
+        if (monthlyMap[monthKey]) {
+
+            monthlyMap[monthKey] += transaction.amount;
+
+        }
+
+        else {
+
+            monthlyMap[monthKey] = transaction.amount;
+
+        }
+
+    });
+
+    const sortedMonths = Object.keys(monthlyMap).sort();
+
+    const labels = sortedMonths.map(month => {
+
+        const [year, monthIndex] = month.split("-");
+
+        const date = new Date(year, monthIndex);
+
+        return date.toLocaleString("default", {
+
+            month: "short"
+
+        });
+
+    });
+
+    const data = sortedMonths.map(month => monthlyMap[month]);
+    const ctx = document.getElementById("trendChart");
+    if (!trendChart) {
+
+        trendChart = new Chart(ctx, {
+
+            type: "line",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label: "Monthly Spending",
+
+                    data: data,
+
+                    tension: 0.4,
+
+                    fill: true,
+
+                    borderWidth: 3,
+
+                    pointRadius: 4,
+
+                    pointHoverRadius: 6,
+
+                    borderColor: "#3b82f6",
+
+                    backgroundColor: "rgba(59,130,246,0.12)"
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                animation: {
+
+                    duration: 800
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        grid: {
+
+                            display: false
+
+                        },
+
+                        ticks: {
+
+                            color: getComputedStyle(document.documentElement)
+                                .getPropertyValue("--secondary-text"),
+
+                            font: {
+
+                                size: 12,
+
+                                family: "Inter"
+                            }
+
+                        }
+
+                    },
+
+                    y: {
+
+                        grid: {
+
+                            color: "rgba(255,255,255,0.05)"
+
+                        },
+
+                        ticks: {
+
+                            color: getComputedStyle(document.documentElement)
+                                .getPropertyValue("--secondary-text"),
+
+                            font: {
+
+                                size: 12,
+
+                                family: "Inter"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+    else {
+
+        trendChart.data.labels = labels;
+
+        trendChart.data.datasets[0].data = data;
+
+        trendChart.update();
+
+    }
+}
 
 
 
