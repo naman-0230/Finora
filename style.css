@@ -365,6 +365,346 @@
 }
 
 
+
+/* ────────────────────────────────────────────────────────────
+   THEME 1 · INK PHANTOM
+   Inspired by: Aesthetic_anime_wallpaper.jpg
+   Palette: obsidian black · splattered ink · glowing emerald
+   Mood: editorial grit, dark ink-wash brutalism
+   ──────────────────────────────────────────────────────────── */
+ 
+[data-theme="ink-phantom"] {
+ 
+  /* Background */
+  --bg-color: #050708;
+  --bg-gradient: none;
+  --bg-image: url('/Finora/photos/ink-phantom.jpg');
+ 
+  /* Cards — near-black glass with emerald shimmer */
+  --card-base: rgba(5, 10, 8, 0.72);
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(0, 255, 120, 0.04),
+    rgba(255, 255, 255, 0.01)
+  );
+  --card-border: rgba(0, 200, 100, 0.14);
+  --card-blur: blur(20px);
+  --card-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(0, 255, 120, 0.07);
+  --card-hover-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(0, 255, 120, 0.12);
+  --card-hover: rgba(0, 255, 120, 0.05);
+  --card-border-hover: rgba(0, 255, 120, 0.22);
+ 
+  /* Text */
+  --text: #e8f5ee;
+  --secondary-text: #7aab8f;
+ 
+  /* Borders */
+  --border: rgba(0, 200, 100, 0.13);
+ 
+  /* Financial colours */
+  --income: rgba(0, 230, 110, 0.88);
+  --expense: rgba(230, 60, 60, 0.85);
+ 
+  /* Accent — glowing emerald green */
+  --accent: #00e070;
+ 
+  /* Dropdown */
+  --dropdown-bg: #0a110e;
+ 
+  /* Shadow */
+  --shadow: 0px 4px 24px rgba(0, 0, 0, 0.5);
+ 
+  /* Chart empty track */
+  --chart-empty: rgba(255, 255, 255, 0.04);
+ 
+  /* Chart colours pulled from the ink-green palette */
+  /* EMERALD — income / primary */
+  --chart-1:        rgba(0, 220, 110, 0.15);
+  --chart-1-border: rgba(0, 220, 110, 0.80);
+ 
+  /* CRIMSON — expense */
+  --chart-2:        rgba(220, 50, 50, 0.15);
+  --chart-2-border: rgba(220, 50, 50, 0.78);
+ 
+  /* PALE JADE */
+  --chart-3:        rgba(120, 255, 180, 0.12);
+  --chart-3-border: rgba(120, 255, 180, 0.65);
+ 
+  /* INK GREY */
+  --chart-4:        rgba(160, 180, 165, 0.12);
+  --chart-4-border: rgba(160, 180, 165, 0.60);
+ 
+  /* GHOST WHITE */
+  --chart-5:        rgba(230, 255, 240, 0.08);
+  --chart-5-border: rgba(230, 255, 240, 0.50);
+ 
+  /* DEEP TEAL */
+  --chart-6:        rgba(0, 170, 130, 0.14);
+  --chart-6-border: rgba(0, 170, 130, 0.68);
+ 
+  /* MUTED AMBER — bills accent */
+  --chart-7:        rgba(200, 160, 40, 0.12);
+  --chart-7-border: rgba(200, 160, 40, 0.60);
+}
+ 
+/* ────────────────────────────────────────────────────────────
+   THEME 2 · GHIBLI RAIN
+   Inspired by: download__2_.jpg (rainy garden, black cat, duck)
+   Palette: misty sage · rain-washed aqua · warm lantern amber
+   Mood: cozy lo-fi, soft watercolour warmth
+   ──────────────────────────────────────────────────────────── */
+ 
+[data-theme="ghibli-rain"] {
+ 
+  /* Background */
+  --bg-color: #0e1812;
+  --bg-gradient: none;
+  --bg-image: url('/Finora/photos/ghibli-rainn2.jpg');
+ 
+  /* Cards — mossy frosted glass */
+  --card-base: rgba(10, 22, 16, 0.68);
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(160, 220, 180, 0.07),
+    rgba(255, 200, 100, 0.03)
+  );
+  --card-border: rgba(120, 200, 150, 0.16);
+  --card-blur: blur(22px);
+  --card-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.40),
+    inset 0 1px 0 rgba(180, 255, 200, 0.06);
+  --card-hover-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.50),
+    inset 0 1px 0 rgba(180, 255, 200, 0.10);
+  --card-hover: rgba(120, 200, 150, 0.07);
+  --card-border-hover: rgba(120, 200, 150, 0.24);
+ 
+  /* Text */
+  --text: #d8f0e0;
+  --secondary-text: #80b090;
+ 
+  /* Borders */
+  --border: rgba(100, 190, 140, 0.15);
+ 
+  /* Financial colours */
+  --income: rgba(80, 200, 130, 0.90);
+  --expense: rgba(220, 100, 80, 0.85);
+ 
+  /* Accent — warm amber lantern glow */
+  --accent: #d4862a;
+ 
+  /* Dropdown */
+  --dropdown-bg: #0d1a12;
+ 
+  /* Shadow */
+  --shadow: 0px 4px 22px rgba(0, 0, 0, 0.38);
+ 
+  /* Chart empty track */
+  --chart-empty: rgba(255, 255, 255, 0.05);
+ 
+  /* SAGE GREEN — income / primary */
+  --chart-1:        rgba(80, 200, 130, 0.15);
+  --chart-1-border: rgba(80, 200, 130, 0.78);
+ 
+  /* TERRACOTTA — expense */
+  --chart-2:        rgba(220, 100, 80, 0.15);
+  --chart-2-border: rgba(220, 100, 80, 0.76);
+ 
+  /* RAIN AQUA */
+  --chart-3:        rgba(80, 180, 200, 0.14);
+  --chart-3-border: rgba(80, 180, 200, 0.68);
+ 
+  /* LANTERN AMBER */
+  --chart-4:        rgba(210, 140, 40, 0.14);
+  --chart-4-border: rgba(210, 140, 40, 0.70);
+ 
+  /* LILY PAD GREEN */
+  --chart-5:        rgba(140, 200, 120, 0.12);
+  --chart-5-border: rgba(140, 200, 120, 0.62);
+ 
+  /* MIST TEAL */
+  --chart-6:        rgba(60, 160, 150, 0.13);
+  --chart-6-border: rgba(60, 160, 150, 0.65);
+ 
+  /* CREAM BLOSSOM */
+  --chart-7:        rgba(230, 215, 170, 0.10);
+  --chart-7-border: rgba(230, 215, 170, 0.55);
+}
+ 
+ 
+/* ────────────────────────────────────────────────────────────
+   THEME 3 · CRIMSON VIGIL
+   Inspired by: download__3_.jpg (dark comic hero, shattered glass)
+   Palette: blood crimson · graphite black · shattered silver
+   Mood: dark comic-book brutalism, intense tension
+   ──────────────────────────────────────────────────────────── */
+ 
+[data-theme="crimson-vigil"] {
+ 
+  /* Background */
+  --bg-color: #0a0608;
+  --bg-gradient: none;
+  --bg-image: url('/Finora/photos/crimson-vigil2.jpg');
+ 
+  /* Cards — dark graphite glass with crimson edge */
+  --card-base: rgba(8, 4, 6, 0.74);
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(200, 30, 30, 0.06),
+    rgba(255, 255, 255, 0.01)
+  );
+  --card-border: rgba(200, 30, 30, 0.16);
+  --card-blur: blur(20px);
+  --card-shadow:
+    0 12px 38px rgba(0, 0, 0, 0.60),
+    inset 0 1px 0 rgba(220, 50, 50, 0.08);
+  --card-hover-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.70),
+    inset 0 1px 0 rgba(220, 50, 50, 0.13);
+  --card-hover: rgba(200, 30, 30, 0.07);
+  --card-border-hover: rgba(200, 30, 30, 0.26);
+ 
+  /* Text */
+  --text: #f0e6e6;
+  --secondary-text: #9e7878;
+ 
+  /* Borders */
+  --border: rgba(200, 40, 40, 0.14);
+ 
+  /* Financial colours */
+  --income: rgba(200, 200, 210, 0.88);
+  --expense: rgba(220, 30, 30, 0.90);
+ 
+  /* Accent — shattered glass silver-red */
+  --accent: #c0202a;
+ 
+  /* Dropdown */
+  --dropdown-bg: #100608;
+ 
+  /* Shadow */
+  --shadow: 0px 4px 24px rgba(0, 0, 0, 0.55);
+ 
+  /* Chart empty track */
+  --chart-empty: rgba(255, 255, 255, 0.04);
+ 
+  /* BLOOD RED — expense / primary */
+  --chart-1:        rgba(210, 30, 30, 0.15);
+  --chart-1-border: rgba(210, 30, 30, 0.82);
+ 
+  /* STEEL SILVER — income */
+  --chart-2:        rgba(190, 190, 210, 0.14);
+  --chart-2-border: rgba(190, 190, 210, 0.72);
+ 
+  /* SHATTERED BLUE-GREY */
+  --chart-3:        rgba(80, 100, 130, 0.14);
+  --chart-3-border: rgba(80, 100, 130, 0.65);
+ 
+  /* DARK MAROON */
+  --chart-4:        rgba(140, 20, 20, 0.16);
+  --chart-4-border: rgba(140, 20, 20, 0.72);
+ 
+  /* SPIDER WEB WHITE */
+  --chart-5:        rgba(210, 205, 205, 0.08);
+  --chart-5-border: rgba(210, 205, 205, 0.48);
+ 
+  /* RUST ORANGE */
+  --chart-6:        rgba(180, 80, 30, 0.13);
+  --chart-6-border: rgba(180, 80, 30, 0.65);
+ 
+  /* DEEP SHADOW PURPLE */
+  --chart-7:        rgba(100, 40, 80, 0.12);
+  --chart-7-border: rgba(100, 40, 80, 0.60);
+}
+ 
+ 
+/* ────────────────────────────────────────────────────────────
+   THEME 4 · SAKURA CLIFF
+   Inspired by: download.jpg (red maples, red sun, charcoal cliffs)
+   Palette: vermilion red · charcoal ash · bone white · iron grey
+   Mood: dramatic Japanese ink painting, noble & intense
+   ──────────────────────────────────────────────────────────── */
+ 
+[data-theme="sakura-cliff"] {
+ 
+  /* Background */
+  --bg-color: #0d0a0a;
+  --bg-gradient: none;
+  --bg-image: url('/Finora/photos/999.jpg');
+ 
+  /* Cards — charcoal ink glass with red blossom shimmer */
+  --card-base: rgba(10, 8, 8, 0.70);
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(200, 30, 20, 0.06),
+    rgba(230, 200, 180, 0.02)
+  );
+  --card-border: rgba(190, 30, 20, 0.18);
+  --card-blur: blur(22px);
+  --card-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(220, 60, 30, 0.07);
+  --card-hover-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(220, 60, 30, 0.12);
+  --card-hover: rgba(190, 30, 20, 0.07);
+  --card-border-hover: rgba(190, 30, 20, 0.28);
+ 
+  /* Text */
+  --text: #f2e8e0;
+  --secondary-text: #a08070;
+ 
+  /* Borders */
+  --border: rgba(190, 40, 20, 0.15);
+ 
+  /* Financial colours */
+  --income: rgba(220, 200, 180, 0.90);
+  --expense: rgba(210, 30, 20, 0.90);
+ 
+  /* Accent — vermilion red sun */
+  --accent: #cc2010;
+ 
+  /* Dropdown */
+  --dropdown-bg: #110a0a;
+ 
+  /* Shadow */
+  --shadow: 0px 4px 24px rgba(0, 0, 0, 0.50);
+ 
+  /* Chart empty track */
+  --chart-empty: rgba(255, 255, 255, 0.04);
+ 
+  /* VERMILION — primary / expense */
+  --chart-1:        rgba(210, 30, 20, 0.15);
+  --chart-1-border: rgba(210, 30, 20, 0.82);
+ 
+  /* ASH BONE — income */
+  --chart-2:        rgba(210, 195, 180, 0.14);
+  --chart-2-border: rgba(210, 195, 180, 0.72);
+ 
+  /* MAPLE SCARLET */
+  --chart-3:        rgba(180, 20, 15, 0.15);
+  --chart-3-border: rgba(180, 20, 15, 0.70);
+ 
+  /* IRON GREY */
+  --chart-4:        rgba(110, 105, 100, 0.14);
+  --chart-4-border: rgba(110, 105, 100, 0.65);
+ 
+  /* MIST WHITE */
+  --chart-5:        rgba(220, 210, 200, 0.08);
+  --chart-5-border: rgba(220, 210, 200, 0.50);
+ 
+  /* DEEP CRIMSON */
+  --chart-6:        rgba(140, 15, 10, 0.15);
+  --chart-6-border: rgba(140, 15, 10, 0.68);
+ 
+  /* WARM STONE */
+  --chart-7:        rgba(160, 130, 100, 0.12);
+  --chart-7-border: rgba(160, 130, 100, 0.58);
+}
+
 /* BODY */
 
 body {
