@@ -450,6 +450,9 @@ let trendChart;
 
 function renderExpenseChart() {
 
+    const rootStyles = getComputedStyle(document.documentElement); //for colors
+
+
     const categoryMap = {};
 
     transactions.forEach(transaction => {
@@ -502,43 +505,59 @@ function renderExpenseChart() {
 
                     data: data,
 
-                    borderWidth: 0,
+                    borderWidth: 1.5,
+
+                    hoverOffset: 10,
 
                     backgroundColor:
 
                         data.length === 1 && labels[0] === "No Data"
 
                             ? [
-
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-empty")
-
+                                rootStyles.getPropertyValue("--chart-empty")
                             ]
 
                             : [
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-1"),
+                                rootStyles.getPropertyValue("--chart-1"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-2"),
+                                rootStyles.getPropertyValue("--chart-2"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-3"),
+                                rootStyles.getPropertyValue("--chart-3"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-4"),
+                                rootStyles.getPropertyValue("--chart-4"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-5"),
+                                rootStyles.getPropertyValue("--chart-5"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-6"),
+                                rootStyles.getPropertyValue("--chart-6"),
 
-                                getComputedStyle(document.documentElement)
-                                    .getPropertyValue("--chart-7")
+                                rootStyles.getPropertyValue("--chart-7")
+                            ],
 
+                    borderColor:
+
+                        data.length === 1 && labels[0] === "No Data"
+
+                            ? [
+                                "rgba(255,255,255,0.12)"
                             ]
+
+                            : [
+
+                                rootStyles.getPropertyValue("--chart-1-border"),
+
+                                rootStyles.getPropertyValue("--chart-2-border"),
+
+                                rootStyles.getPropertyValue("--chart-3-border"),
+
+                                rootStyles.getPropertyValue("--chart-4-border"),
+
+                                rootStyles.getPropertyValue("--chart-5-border"),
+
+                                rootStyles.getPropertyValue("--chart-6-border"),
+
+                                rootStyles.getPropertyValue("--chart-7-border")
+                            ],
 
                 }]
 
@@ -622,6 +641,8 @@ function renderExpenseChart() {
 
 function renderComparisonChart() {
 
+    const rootStyles = getComputedStyle(document.documentElement); //for colors
+
     let income = 0;
 
     let expense = 0;
@@ -664,11 +685,21 @@ function renderComparisonChart() {
 
                     backgroundColor: [
 
-                        "#22c55e",
+                        rootStyles.getPropertyValue("--chart-1"),
 
-                        "#ef4444"
+                        rootStyles.getPropertyValue("--chart-2")
+                    ],
 
-                    ]
+                    borderColor: [
+
+                        rootStyles.getPropertyValue("--chart-1-border"),
+
+                        rootStyles.getPropertyValue("--chart-2-border")
+                    ],
+
+                    borderWidth: 1.5,
+
+                    borderRadius: 14,
 
                 }]
 
@@ -767,6 +798,9 @@ function renderComparisonChart() {
 
 function renderTrendChart() {
 
+    const rootStyles = getComputedStyle(document.documentElement);  //for color
+  
+
     const monthlyMap = {};
     transactions.forEach(transaction => {
 
@@ -790,7 +824,11 @@ function renderTrendChart() {
 
     });
 
-    const sortedMonths = Object.keys(monthlyMap).sort();
+    const sortedMonths = Object.keys(monthlyMap);
+
+    sortedMonths.sort(function (a, b) {
+        return new Date(a) - new Date(b);
+    });
 
     const labels = sortedMonths.map(month => {
 
@@ -824,19 +862,29 @@ function renderTrendChart() {
 
                     data: data,
 
-                    tension: 0.4,
-
-                    fill: true,
-
                     borderWidth: 3,
-
-                    pointRadius: 4,
 
                     pointHoverRadius: 6,
 
-                    borderColor: "#3b82f6",
+                    backgroundColor:
+                        rootStyles.getPropertyValue("--chart-3"),
 
-                    backgroundColor: "rgba(59,130,246,0.12)"
+                    borderColor:
+                        rootStyles.getPropertyValue("--chart-3-border"),
+
+                    fill: true,
+
+                    tension: 0.4,
+
+                    pointBackgroundColor:
+                        "rgba(255,255,255,0.9)",
+
+                    pointBorderColor:
+                        rootStyles.getPropertyValue("--chart-3-border"),
+
+                    pointBorderWidth: 2,
+
+                    pointRadius: 4,
 
                 }]
 
@@ -870,14 +918,14 @@ function renderTrendChart() {
 
                         grid: {
 
-                            display: false
+                            display: false,
+                            drawBorder: false
 
                         },
 
                         ticks: {
 
-                            color: getComputedStyle(document.documentElement)
-                                .getPropertyValue("--secondary-text"),
+                            color: rootStyles.getPropertyValue("--secondary-text"),
 
                             font: {
 
@@ -894,14 +942,15 @@ function renderTrendChart() {
 
                         grid: {
 
-                            color: "rgba(255,255,255,0.05)"
+                            color: "rgba(255,255,255,0.035)",
+                            drawBorder: false,
+                            borderDash: [4,4],
 
                         },
 
                         ticks: {
 
-                            color: getComputedStyle(document.documentElement)
-                                .getPropertyValue("--secondary-text"),
+                            color: rootStyles.getPropertyValue("--secondary-text"),
 
                             font: {
 
