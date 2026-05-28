@@ -156,9 +156,17 @@ transactionList.addEventListener("click", function(e){
 
   if(e.target.classList.contains("delete-btn")){
 
-    const id = Number(e.target.dataset.id);
+    const item = e.target.closest(".transaction-item");
 
+    item.style.transform = "translateX(20px)";
+    item.style.opacity = "0";
+    
+    setTimeout(() => {
+
+    const id = Number(e.target.dataset.id);
     deleteTransaction(id);
+
+  }, 2000);
   }
 
 });
