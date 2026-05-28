@@ -139,6 +139,8 @@ function renderTransactions() {
             }₹${transaction.amount}
             </h3>
 
+            <button class="delete-btn" data-id="${transaction.id}">Delete</button>
+    
             </div>
         `;
 

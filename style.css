@@ -474,6 +474,33 @@ textarea{
   gap: 20px;
 }
 
+.delete-btn{
+
+  margin-top: 8px;
+
+  padding: 6px 10px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  transform: translateY(-4px);
+
+  background: rgba(255,255,255,0.08);
+
+  color: white;
+
+  transition: 0.2s ease;
+}
+
+.delete-btn:hover{
+  background: rgba(255,255,255,0.15);
+}
+
 .amount{
 
   font-weight: bold;
