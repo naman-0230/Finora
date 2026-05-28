@@ -86,16 +86,17 @@ function addTransaction() {
 
 
 //rendering UI
-
+console.log("transactions:", transactions);
+console.log("length:", transactions.length);
 function renderTransactions() {
 
     transactionList.innerHTML = "";
 
     if (transactions.length === 0) {
         emptyState.style.display = "block";
+        console.log("hola")
         return;
     }
-    emptyState.style.display = "none";
 
     transactions.forEach(function (transaction) {
 
@@ -149,7 +150,37 @@ function renderTransactions() {
 
     });
 
-
 }
 
-renderTransactions();
+transactionList.addEventListener("click", function(e){
+
+  if(e.target.classList.contains("delete-btn")){
+
+    const id = Number(e.target.dataset.id);
+
+    deleteTransaction(id);
+  }
+
+});
+
+function deleteTransaction(id){
+
+  transactions = transactions.filter(function(transaction){
+    return transaction.id !== id;
+  });
+
+  localStorage.setItem(
+    "transactions",
+    JSON.stringify(transactions)
+  );
+
+  renderTransactions();
+  console.log(transactions.length);
+}
+
+
+
+
+window.addEventListener("DOMContentLoaded", function(){   //only when full DOM is ready 
+  renderTransactions();
+});
