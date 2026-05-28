@@ -174,6 +174,9 @@ function renderTransactions() {
                     ${transaction.type === "expense" ? "-" : "+"}₹${transaction.amount}
                 </h3>
 
+                <button class="edit-btn" data-id="${transaction.id}">
+                    Edit
+                </button>    
                 <button class="delete-btn" data-id="${transaction.id}">
                     Delete
                 </button>

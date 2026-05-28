@@ -502,7 +502,7 @@ textarea{
 
   align-items: center;
 
-  gap: 20px;
+  gap: 5px;
 }
 
 .delete-btn{
@@ -529,6 +529,34 @@ textarea{
 }
 
 .delete-btn:hover{
+  background: rgba(255,255,255,0.15);
+}
+.edit-btn{
+
+  margin-top: 8px;
+
+  margin-left: 20px;
+
+  padding: 6px 15px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  transform: translateY(-4px);
+
+  background: rgba(255,255,255,0.08);
+
+  color: white;
+
+  transition: 0.2s ease;
+}
+
+.edit-btn:hover{
   background: rgba(255,255,255,0.15);
 }
 
