@@ -14,9 +14,17 @@ const categoryInput =
 const typeInput =
     document.querySelector("#type");
 
-let selectedTypo = "";
+let selectedTypo = "income";
 const typeButtons =
     document.querySelectorAll(".type-btn");
+
+typeButtons.forEach(function (btn) {
+
+    if (btn.dataset.type === "income") {
+        btn.classList.add("active");
+    }
+
+});
 
 const dateInput =
     document.querySelector("#date");
@@ -116,7 +124,9 @@ function addTransaction() {
 
     renderTransactions();
     updateBalance();
-    renderCharts();
+    renderExpenseChart();
+    renderComparisonChart();
+    renderTrendChart();
 
     selectedTypo = "income";
 
@@ -165,7 +175,11 @@ function renderTransactions() {
 
         const transactionItem = document.createElement("div");
         transactionItem.classList.add("transaction-item");
-        transactionItem.classList.add(transaction.type);
+        if (transaction.type) {
+
+            transactionItem.classList.add(transaction.type);
+
+        }
 
         transactionItem.innerHTML = `
   
@@ -247,7 +261,9 @@ function deleteTransaction(id) {
 
     renderTransactions();
     updateBalance();
-    renderCharts();
+    renderExpenseChart();
+    renderComparisonChart();
+    renderTrendChart();
     console.log(transactions.length);
 }
 
@@ -429,8 +445,10 @@ function getFilteredTransactions() {
 
 
 let expenseChart;
+let comparisonChart;
+let trendChart;
 
-function renderCharts() {
+function renderExpenseChart() {
 
     const categoryMap = {};
 
@@ -558,12 +576,157 @@ function renderCharts() {
 
 }
 
+function renderComparisonChart() {
+
+    let income = 0;
+
+    let expense = 0;
+
+    transactions.forEach(transaction => {
+
+        if (transaction.type === "income") {
+
+            income += transaction.amount;
+
+        }
+
+        else {
+
+            expense += transaction.amount;
+
+        }
+    });
+
+    const labels = ["Income", "Expense"];
+    const data = [income, expense];
+    const ctx = document.getElementById("comparisonChart");
+    if (!comparisonChart) {
+
+        comparisonChart = new Chart(ctx, {
+
+            type: "bar",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    data: data,
+
+                    borderRadius: 12,
+
+                    borderSkipped: false,
+
+                    backgroundColor: [
+
+                        "#22c55e",
+
+                        "#ef4444"
+
+                    ]
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+
+                    duration: 800
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        grid: {
+
+                            display: false
+
+                        },
+
+                        ticks: {
+
+                            color: getComputedStyle(document.documentElement)
+                                .getPropertyValue("--secondary-text"),
+
+                            font: {
+
+                                size: 13,
+
+                                family: "Inter"
+
+                            }
+
+                        }
+
+                    },
+                    y: {
+
+                        grid: {
+
+                            color: "rgba(255,255,255,0.05)"
+
+                        },
+
+                        ticks: {
+
+                            color: getComputedStyle(document.documentElement)
+                                .getPropertyValue("--secondary-text"),
+
+                            font: {
+
+                                size: 12,
+
+                                family: "Inter"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+    else {
+
+        comparisonChart.data.labels = labels;
+
+        comparisonChart.data.datasets[0].data = data;
+
+        comparisonChart.update();
+
+    }
+
+}
 
 
 
 
 renderTransactions();
 updateBalance();
-renderCharts();
-
+renderExpenseChart();
+renderComparisonChart();
+renderTrendChart();
 
