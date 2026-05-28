@@ -238,6 +238,11 @@ function updateBalance(){
  
 }
 
+//for filters and search
+
+let selectedType = "all";
+let selectedCategory = "all";
+let searchText = "";
 
 
 
