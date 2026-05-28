@@ -14,6 +14,10 @@ const categoryInput =
 const typeInput =
     document.querySelector("#type");
 
+let selectedTypo = "";
+const typeButtons =
+    document.querySelectorAll(".type-btn");
+
 const dateInput =
     document.querySelector("#date");
 
@@ -39,7 +43,22 @@ form.addEventListener("submit", function (event) {
     addTransaction();
 
 });
+//income expense buttons
+typeButtons.forEach(function (btn) {
 
+    btn.addEventListener("click", function () {
+
+        selectedTypo = btn.dataset.type;
+
+        typeButtons.forEach(function (b) {
+            b.classList.remove("active");
+        });
+
+        btn.classList.add("active");
+
+    });
+
+});
 
 //getting values from inputs
 function addTransaction() {
@@ -52,6 +71,7 @@ function addTransaction() {
         alert("Please enter valid transaction details.");
         return;
     }
+    
 
     //normal object creation
     const transaction = {
@@ -64,7 +84,7 @@ function addTransaction() {
 
         category: categoryInput.value,
 
-        type: typeInput.value,
+        type: selectedTypo,
 
         date: dateInput.value,
 
@@ -99,7 +119,7 @@ function renderTransactions() {
         console.log("hola")
         return;
     }
-    else{
+    else {
         emptyState.style.display = "none";
     }
 
@@ -151,7 +171,7 @@ function renderTransactions() {
         `;
 
         transactionList.appendChild(transactionItem);
- 
+
 
     });
     console.log("incomeEl:", incomeEl);
@@ -160,82 +180,82 @@ function renderTransactions() {
     updateBalance();
 }
 
-transactionList.addEventListener("click", function(e){
+transactionList.addEventListener("click", function (e) {
 
-  if(e.target.classList.contains("delete-btn")){
+    if (e.target.classList.contains("delete-btn")) {
 
-    const item = e.target.closest(".transaction-item");
+        const item = e.target.closest(".transaction-item");
 
-    item.style.transform = "translateX(20px)";
-    item.style.opacity = "0";
-    
-    setTimeout(() => {
+        item.style.transform = "translateX(20px)";
+        item.style.opacity = "0";
 
-    const id = Number(e.target.dataset.id);
-    deleteTransaction(id);
+        setTimeout(() => {
 
-  }, 400);
-  }
+            const id = Number(e.target.dataset.id);
+            deleteTransaction(id);
+
+        }, 400);
+    }
 
 });
 
-function deleteTransaction(id){
+function deleteTransaction(id) {
 
-  transactions = transactions.filter(function(transaction){
-    return transaction.id !== id;
-  });
+    transactions = transactions.filter(function (transaction) {
+        return transaction.id !== id;
+    });
 
-  localStorage.setItem(
-    "transactions",
-    JSON.stringify(transactions)
-  );
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
 
-  renderTransactions();
-  updateBalance();
-  console.log(transactions.length);
+    renderTransactions();
+    updateBalance();
+    console.log(transactions.length);
 }
 
 //DOM for balancing
 
 const incomeEl =
-  document.querySelector(".income-value");
+    document.querySelector(".income-value");
 
 const expenseEl =
-  document.querySelector(".expense-value");
+    document.querySelector(".expense-value");
 
 const totalEl =
-  document.querySelector(".balance-value");
+    document.querySelector(".balance-value");
 
 
-function updateBalance(){
+function updateBalance() {
     console.log("updateBalance running");
-  let income = 0;
-  let expense = 0;
+    let income = 0;
+    let expense = 0;
 
-  transactions.forEach(function(transaction){
+    transactions.forEach(function (transaction) {
 
-    if(transaction.type === "Income"){
-      income += transaction.amount;
+        if (transaction.type === "Income") {
+            income += transaction.amount;
+        }
+        else if (transaction.type === "Expense") {
+            expense += transaction.amount;
+        }
+
+    });
+
+    let balance = income - expense;
+
+    incomeEl.textContent = "₹" + income.toLocaleString("en-IN");
+    expenseEl.textContent = "₹" + expense.toLocaleString("en-IN");
+    totalEl.textContent = "₹" + balance.toLocaleString("en-IN");
+
+    if (balance < 0) {
+        totalEl.style.color = "#ef4444";
     }
-    else if(transaction.type === "Expense"){
-      expense += transaction.amount;
+    else {
+        totalEl.style.color = "#22c55e";
     }
 
-  });
-
-  let balance = income - expense;
-
-  incomeEl.textContent = "₹" + income.toLocaleString("en-IN");
-  expenseEl.textContent = "₹" + expense.toLocaleString("en-IN");
-  totalEl.textContent = "₹" + balance.toLocaleString("en-IN");
-
-    if(balance < 0){
-    totalEl.style.color = "#ef4444";
-    }
-    else{
-    totalEl.style.color = "#22c55e";
-    }
- 
 }
 
 //for filters and search
@@ -244,11 +264,68 @@ let selectedType = "all";
 let selectedCategory = "all";
 let searchText = "";
 
+const searchInput = document.querySelector("#search");
+const categoryFilter = document.querySelector("#category-filter");
+const filterButtons = document.querySelectorAll(".filter-btn");
 
+filterButtons.forEach(function (btn) {
+
+    btn.addEventListener("click", function () {
+
+        selectedType = btn.dataset.type;
+
+        filterButtons.forEach(function (b) {
+            b.classList.remove("active");
+        });
+
+        btn.classList.add("active");
+
+        renderTransactions();
+    });
+
+});
+
+categoryFilter.addEventListener("change", function (e) {
+
+    selectedCategory = e.target.value;
+
+    renderTransactions();
+});
+
+searchInput.addEventListener("input", function (e) {
+
+    searchText = e.target.value.toLowerCase();
+
+    renderTransactions();
+});
+
+function getFilteredTransactions() {
+
+    return transactions.filter(function (t) {
+
+        const matchType =
+            selectedType === "all" ||
+            t.type === selectedType;
+
+        const matchCategory =
+            selectedCategory === "all" ||
+            t.category === selectedCategory;
+
+        const desc = t.description.toLowerCase();
+        const search = searchText.trim().toLowerCase();
+
+        const matchSearch =
+            search === "" ||
+            desc.startsWith(search) ||
+            desc.includes(search);
+
+        return matchType && matchCategory && matchSearch;
+    });
+}
 
 
 
 renderTransactions();
 updateBalance();
 
- 
+
