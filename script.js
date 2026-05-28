@@ -30,12 +30,14 @@ const emptyState =
 dateInput.valueAsDate = new Date();
 
 //main storing array
-let transactions = [];
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
 //main submit listener
 form.addEventListener("submit", function (event) {
 
     event.preventDefault();
     addTransaction();
+
 });
 
 
@@ -43,14 +45,10 @@ form.addEventListener("submit", function (event) {
 function addTransaction() {
     //minimal validation for now 
     const description = descriptionInput.value.trim();
-    
+
     const amount = Number(amountInput.value);
-     
-    if (
-        !description ||
-        !amount ||
-        amount <= 0
-    ) {
+
+    if (!description || !amount || amount <= 0) {
         alert("Please enter valid transaction details.");
         return;
     }
@@ -82,4 +80,74 @@ function addTransaction() {
 
     dateInput.valueAsDate = new Date();
 
-};
+    renderTransactions();
+
+}
+
+
+//rendering UI
+
+function renderTransactions() {
+
+    transactionList.innerHTML = "";
+
+    if (transactions.length === 0) {
+        emptyState.style.display = "block";
+        return;
+    }
+    emptyState.style.display = "none";
+
+    transactions.forEach(function (transaction) {
+
+        const transactionItem = document.createElement("div");
+        transactionItem.classList.add("transaction-item");
+        transactionItem.classList.add(transaction.type);
+
+        //main adding html
+
+        transactionItem.innerHTML = `
+  
+            <div class="transaction-left">
+
+            <h3>
+            ${transaction.description}
+            </h3>
+
+            <div class="transaction-meta">
+
+            <span class="category-tag">
+            ${transaction.category}
+            </span>
+
+            <span>
+            ${transaction.date}
+            </span>
+
+            </div>
+
+            ${transaction.note ? `<p class="transaction-note"> ${transaction.note}</p>` : ""}
+          
+
+            </div>
+
+            <div class="transaction-right">
+
+            <h3>
+            ${transaction.type === "expense"
+                ? "-"
+                : "+"
+            }₹${transaction.amount}
+            </h3>
+
+            </div>
+        `;
+
+        transactionList.appendChild(transactionItem);
+ 
+
+    });
+
+
+}
+
+renderTransactions();
