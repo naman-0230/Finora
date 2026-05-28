@@ -28,8 +28,8 @@
 
   --border: rgba(255,255,255,0.1);
 
-  --income: #22c55e;
-  --expense: #ef4444;
+  --income: #22c55ece;
+  --expense: #ef4444bd;
 
   --accent: #7c3aed;
 
@@ -441,28 +441,28 @@ textarea{
   box-shadow: var(--card-shadow);
 }
 
-.Expense{
+.expense{
 
   background:
-    rgba(239,68,68,0.08);
+    rgba(119, 33, 33, 0.08);
 
   border-color: var(--expense);
 }
 
-.Income{
+.income{
 
   background:
-    rgba(34,197,94,0.08);
+    rgba(18, 102, 49, 0.08);
 
   border-color: var(--income);
 }
 
-.Income h3{
-  color: #22c55e;
+.income h3{
+  color: #22c55e9b;
 }
 
-.Expense h3{
-  color: #ef4444;
+.expense h3{
+  color: #ef444490;
 }
 
 .category-tag{

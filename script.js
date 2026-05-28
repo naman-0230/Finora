@@ -71,7 +71,7 @@ function addTransaction() {
         alert("Please enter valid transaction details.");
         return;
     }
-    
+
 
     //normal object creation
     const transaction = {
@@ -103,6 +103,19 @@ function addTransaction() {
     renderTransactions();
     updateBalance();
 
+    selectedTypo = "income";
+
+    typeButtons.forEach(function (btn) {
+
+        if (btn.dataset.type === "income") {
+            btn.classList.add("active");
+        }
+        else {
+            btn.classList.remove("active");
+        }
+
+    });
+
 }
 
 
@@ -114,69 +127,67 @@ function renderTransactions() {
 
     transactionList.innerHTML = "";
 
-    if (transactions.length === 0) {
+    // STEP 7 FIX: use filtered data instead of raw array
+    const filtered = getFilteredTransactions();
+
+    if (filtered.length === 0) {
         emptyState.style.display = "block";
-        console.log("hola")
+        console.log("hola");
+        updateBalance(); // still update balance even if empty
         return;
     }
     else {
         emptyState.style.display = "none";
     }
 
-    transactions.forEach(function (transaction) {
+    filtered.forEach(function (transaction) {
 
         const transactionItem = document.createElement("div");
         transactionItem.classList.add("transaction-item");
         transactionItem.classList.add(transaction.type);
 
-        //main adding html
-
         transactionItem.innerHTML = `
   
             <div class="transaction-left">
 
-            <h3>
-            ${transaction.description}
-            </h3>
+                <h3>${transaction.description}</h3>
 
-            <div class="transaction-meta">
+                <div class="transaction-meta">
 
-            <span class="category-tag">
-            ${transaction.category}
-            </span>
+                    <span class="category-tag">
+                        ${transaction.category}
+                    </span>
 
-            <span>
-            ${transaction.date}
-            </span>
+                    <span>
+                        ${transaction.date}
+                    </span>
 
-            </div>
+                </div>
 
-            ${transaction.note ? `<p class="transaction-note"> ${transaction.note}</p>` : ""}
-          
+                ${transaction.note ? `<p class="transaction-note">${transaction.note}</p>` : ""}
 
             </div>
 
             <div class="transaction-right">
 
-            <h3>
-            ${transaction.type === "expense"
-                ? "-"
-                : "+"
-            }₹${transaction.amount}
-            </h3>
+                <h3>
+                    ${transaction.type === "expense" ? "-" : "+"}₹${transaction.amount}
+                </h3>
 
-            <button class="delete-btn" data-id="${transaction.id}">Delete</button>
-    
+                <button class="delete-btn" data-id="${transaction.id}">
+                    Delete
+                </button>
+
             </div>
         `;
 
         transactionList.appendChild(transactionItem);
-
-
     });
+
     console.log("incomeEl:", incomeEl);
     console.log("expenseEl:", expenseEl);
     console.log("totalEl:", totalEl);
+
     updateBalance();
 }
 
@@ -229,24 +240,24 @@ const totalEl =
 
 function updateBalance() {
     console.log("updateBalance running");
-    let income = 0;
-    let expense = 0;
+    let incomes = 0;
+    let expenses = 0;
 
     transactions.forEach(function (transaction) {
 
-        if (transaction.type === "Income") {
-            income += transaction.amount;
+        if (transaction.type === "income") {
+            incomes += transaction.amount;
         }
-        else if (transaction.type === "Expense") {
-            expense += transaction.amount;
+        else if (transaction.type === "expense") {
+            expenses += transaction.amount;
         }
 
     });
 
-    let balance = income - expense;
+    let balance = incomes - expenses;
 
-    incomeEl.textContent = "₹" + income.toLocaleString("en-IN");
-    expenseEl.textContent = "₹" + expense.toLocaleString("en-IN");
+    incomeEl.textContent = "₹" + incomes.toLocaleString("en-IN");
+    expenseEl.textContent = "₹" + expenses.toLocaleString("en-IN");
     totalEl.textContent = "₹" + balance.toLocaleString("en-IN");
 
     if (balance < 0) {
