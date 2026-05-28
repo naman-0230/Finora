@@ -81,6 +81,7 @@ function addTransaction() {
     dateInput.valueAsDate = new Date();
 
     renderTransactions();
+    updateBalance();
 
 }
 
@@ -88,6 +89,7 @@ function addTransaction() {
 //rendering UI
 console.log("transactions:", transactions);
 console.log("length:", transactions.length);
+
 function renderTransactions() {
 
     transactionList.innerHTML = "";
@@ -96,6 +98,9 @@ function renderTransactions() {
         emptyState.style.display = "block";
         console.log("hola")
         return;
+    }
+    else{
+        emptyState.style.display = "none";
     }
 
     transactions.forEach(function (transaction) {
@@ -149,7 +154,10 @@ function renderTransactions() {
  
 
     });
-
+    console.log("incomeEl:", incomeEl);
+    console.log("expenseEl:", expenseEl);
+    console.log("totalEl:", totalEl);
+    updateBalance();
 }
 
 transactionList.addEventListener("click", function(e){
@@ -166,7 +174,7 @@ transactionList.addEventListener("click", function(e){
     const id = Number(e.target.dataset.id);
     deleteTransaction(id);
 
-  }, 2000);
+  }, 400);
   }
 
 });
@@ -183,12 +191,59 @@ function deleteTransaction(id){
   );
 
   renderTransactions();
+  updateBalance();
   console.log(transactions.length);
+}
+
+//DOM for balancing
+
+const incomeEl =
+  document.querySelector(".income-value");
+
+const expenseEl =
+  document.querySelector(".expense-value");
+
+const totalEl =
+  document.querySelector(".balance-value");
+
+
+function updateBalance(){
+    console.log("updateBalance running");
+  let income = 0;
+  let expense = 0;
+
+  transactions.forEach(function(transaction){
+
+    if(transaction.type === "Income"){
+      income += transaction.amount;
+    }
+    else if(transaction.type === "Expense"){
+      expense += transaction.amount;
+    }
+
+  });
+
+  let balance = income - expense;
+
+  incomeEl.textContent = "₹" + income.toLocaleString("en-IN");
+  expenseEl.textContent = "₹" + expense.toLocaleString("en-IN");
+  totalEl.textContent = "₹" + balance.toLocaleString("en-IN");
+
+    if(balance < 0){
+    totalEl.style.color = "#ef4444";
+    }
+    else{
+    totalEl.style.color = "#22c55e";
+    }
+ 
 }
 
 
 
 
-window.addEventListener("DOMContentLoaded", function(){   //only when full DOM is ready 
-  renderTransactions();
-});
+
+
+renderTransactions();
+updateBalance();
+
+ 
