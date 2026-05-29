@@ -1057,10 +1057,13 @@ textarea {
 .transaction-list {
 
   display: flex;
-
   flex-direction: column;
-
   gap: 15px;
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+  padding-right: 6px;
 }
 
 .transaction-item {

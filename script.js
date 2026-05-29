@@ -124,7 +124,8 @@ function addTransaction() {
 
     form.reset();
 
-    dateInput.valueAsDate = new Date();
+    const t = new Date();
+    dateInput.value = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
 
     renderTransactions();
     updateBalance();
@@ -409,10 +410,16 @@ filterButtons.forEach(function (btn) {
 
 });
 
-categoryFilter.addEventListener("change", function (e) {
+if (categoryFilter) {
+    categoryFilter.addEventListener("change", function (e) {
+        selectedCategory = e.target.value;
+        renderTransactions();
+    });
+}
 
+// This handles your custom dropdown firing the change event:
+document.getElementById('category-filter')?.addEventListener('change', function (e) {
     selectedCategory = e.target.value;
-
     renderTransactions();
 });
 
@@ -1043,10 +1050,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initCustomDropdown('category-dropdown');
 
     initCustomDropdown('category-filter-dropdown', (value) => {
-        // Trigger your existing filter logic
-        // If your filter listens to 'change' on #category-filter, dispatch it:
-        const hiddenInput = document.getElementById('category-filter');
-        hiddenInput.dispatchEvent(new Event('change'));
+        selectedCategory = value;
+        renderTransactions();
     });
 });
 
@@ -1054,143 +1059,143 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── Custom Glass Date Picker ──
 function initDatePicker() {
-  const picker     = document.getElementById('date-picker');
-  const display    = document.getElementById('date-display');
-  const displayTxt = document.getElementById('date-display-text');
-  const hidden     = document.getElementById('date');
+    const picker = document.getElementById('date-picker');
+    const display = document.getElementById('date-display');
+    const displayTxt = document.getElementById('date-display-text');
+    const hidden = document.getElementById('date');
 
-  if (!picker) return;
+    if (!picker) return;
 
-  // ── Move panel to body so backdrop-filter can't trap it ──
-  const panel      = document.getElementById('date-panel');
-  document.body.appendChild(panel);
-  panel.style.position = 'fixed';
-  panel.style.zIndex   = '99999';
+    // ── Move panel to body so backdrop-filter can't trap it ──
+    const panel = document.getElementById('date-panel');
+    document.body.appendChild(panel);
+    panel.style.position = 'fixed';
+    panel.style.zIndex = '99999';
 
-  const grid       = panel.querySelector('#date-grid');
-  const monthLabel = panel.querySelector('#month-label');
-  const prevBtn    = panel.querySelector('#prev-month');
-  const nextBtn    = panel.querySelector('#next-month');
+    const grid = panel.querySelector('#date-grid');
+    const monthLabel = panel.querySelector('#month-label');
+    const prevBtn = panel.querySelector('#prev-month');
+    const nextBtn = panel.querySelector('#next-month');
 
-  const today = new Date();
-  let current = new Date(today.getFullYear(), today.getMonth(), 1);
-  let selectedDate = new Date(today);
-  hidden.value = formatValue(today);
-  displayTxt.textContent = formatDisplay(today);
+    const today = new Date();
+    let current = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedDate = new Date(today);
+    hidden.value = formatValue(today);
+    displayTxt.textContent = formatDisplay(today);
 
-  function formatValue(d) {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-  }
-
-  function formatDisplay(d) {
-    return d.toLocaleDateString('en-IN', {
-      day: '2-digit', month: 'short', year: 'numeric'
-    });
-  }
-
-  function positionPanel() {
-    const rect = display.getBoundingClientRect();
-    panel.style.top   = (rect.bottom + 6) + 'px';
-    panel.style.left  = rect.left + 'px';
-    panel.style.width = rect.width + 'px';
-  }
-
-  function buildGrid() {
-    const year  = current.getFullYear();
-    const month = current.getMonth();
-
-    monthLabel.textContent = current.toLocaleDateString('en-IN', {
-      month: 'long', year: 'numeric'
-    });
-
-    grid.innerHTML = '';
-
-    const firstDay    = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'date-cell empty';
-      grid.appendChild(cell);
+    function formatValue(d) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
     }
 
-    for (let d = 1; d <= daysInMonth; d++) {
-      const cell = document.createElement('div');
-      cell.className = 'date-cell';
-      cell.textContent = d;
+    function formatDisplay(d) {
+        return d.toLocaleDateString('en-IN', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        });
+    }
 
-      if (
-        today.getDate() === d &&
-        today.getMonth() === month &&
-        today.getFullYear() === year
-      ) cell.classList.add('today');
+    function positionPanel() {
+        const rect = display.getBoundingClientRect();
+        panel.style.top = (rect.bottom + 6) + 'px';
+        panel.style.left = rect.left + 'px';
+        panel.style.width = rect.width + 'px';
+    }
 
-      if (
-        selectedDate &&
-        selectedDate.getDate() === d &&
-        selectedDate.getMonth() === month &&
-        selectedDate.getFullYear() === year
-      ) cell.classList.add('selected');
+    function buildGrid() {
+        const year = current.getFullYear();
+        const month = current.getMonth();
 
-      cell.addEventListener('click', () => {
-        selectedDate = new Date(year, month, d);
-        hidden.value = formatValue(selectedDate);
-        displayTxt.textContent = formatDisplay(selectedDate);
-        panel.style.display = 'none';
-        picker.classList.remove('open');
+        monthLabel.textContent = current.toLocaleDateString('en-IN', {
+            month: 'long', year: 'numeric'
+        });
+
+        grid.innerHTML = '';
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'date-cell empty';
+            grid.appendChild(cell);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const cell = document.createElement('div');
+            cell.className = 'date-cell';
+            cell.textContent = d;
+
+            if (
+                today.getDate() === d &&
+                today.getMonth() === month &&
+                today.getFullYear() === year
+            ) cell.classList.add('today');
+
+            if (
+                selectedDate &&
+                selectedDate.getDate() === d &&
+                selectedDate.getMonth() === month &&
+                selectedDate.getFullYear() === year
+            ) cell.classList.add('selected');
+
+            cell.addEventListener('click', () => {
+                selectedDate = new Date(year, month, d);
+                hidden.value = formatValue(selectedDate);
+                displayTxt.textContent = formatDisplay(selectedDate);
+                panel.style.display = 'none';
+                picker.classList.remove('open');
+                buildGrid();
+                hidden.dispatchEvent(new Event('change'));
+            });
+
+            grid.appendChild(cell);
+        }
+    }
+
+    display.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.custom-dropdown.open').forEach(d =>
+            d.classList.remove('open')
+        );
+
+        const isOpen = picker.classList.contains('open');
+
+        if (isOpen) {
+            picker.classList.remove('open');
+            panel.style.display = 'none';
+        } else {
+            picker.classList.add('open');
+            panel.style.display = 'block';
+            positionPanel();
+            buildGrid();
+        }
+    });
+
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        current.setMonth(current.getMonth() - 1);
         buildGrid();
-        hidden.dispatchEvent(new Event('change'));
-      });
+    });
 
-      grid.appendChild(cell);
-    }
-  }
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        current.setMonth(current.getMonth() + 1);
+        buildGrid();
+    });
 
-  display.addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.querySelectorAll('.custom-dropdown.open').forEach(d =>
-      d.classList.remove('open')
-    );
+    document.addEventListener('click', () => {
+        picker.classList.remove('open');
+        panel.style.display = 'none';
+    });
 
-    const isOpen = picker.classList.contains('open');
+    panel.addEventListener('click', e => e.stopPropagation());
 
-    if (isOpen) {
-      picker.classList.remove('open');
-      panel.style.display = 'none';
-    } else {
-      picker.classList.add('open');
-      panel.style.display = 'block';
-      positionPanel();
-      buildGrid();
-    }
-  });
-
-  prevBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    current.setMonth(current.getMonth() - 1);
-    buildGrid();
-  });
-
-  nextBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    current.setMonth(current.getMonth() + 1);
-    buildGrid();
-  });
-
-  document.addEventListener('click', () => {
-    picker.classList.remove('open');
-    panel.style.display = 'none';
-  });
-
-  panel.addEventListener('click', e => e.stopPropagation());
-
-  // Reposition if user scrolls
-  window.addEventListener('scroll', () => {
-    if (picker.classList.contains('open')) positionPanel();
-  }, true);
+    // Reposition if user scrolls
+    window.addEventListener('scroll', () => {
+        if (picker.classList.contains('open')) positionPanel();
+    }, true);
 }
 
 // Call inside your DOMContentLoaded
@@ -1200,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const themes = ["dark", "light", "neon", "ink-phantom", "ghibli-rain", "crimson-vigil", "sakura-cliff"];
+const themes = ["dark", "neon", "ink-phantom", "ghibli-rain", "crimson-vigil", "sakura-cliff", "light"];
 
 let currentThemeIndex = 0;
 
@@ -1210,37 +1215,37 @@ const btn = document.getElementById("themeToggle");
 const savedTheme = localStorage.getItem("theme");
 
 if (savedTheme) {
-  applyTheme(savedTheme);
-  currentThemeIndex = themes.indexOf(savedTheme);
+    applyTheme(savedTheme);
+    currentThemeIndex = themes.indexOf(savedTheme);
 }
 
 btn.addEventListener("click", () => {
-  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-  const theme = themes[currentThemeIndex];
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+    const theme = themes[currentThemeIndex];
 
-  applyTheme(theme);
-  localStorage.setItem("theme", theme);
+    applyTheme(theme);
+    localStorage.setItem("theme", theme);
 });
 
 function applyTheme(theme) {
-  if (theme === "dark") {
-    document.documentElement.removeAttribute("data-theme");
-  } else {
-    document.documentElement.setAttribute("data-theme", theme);
-  }
+    if (theme === "dark") {
+        document.documentElement.removeAttribute("data-theme");
+    } else {
+        document.documentElement.setAttribute("data-theme", theme);
+    }
 
-  updateButtonText(theme);
+    updateButtonText(theme);
 }
 
 function updateButtonText(theme) {
-  const labels = {
-    drk: "Dark",
-    liht: "Light",
-    neo: "Neon",
-    anime: "Anime"
-  };
+    const labels = {
+        drk: "Dark",
+        liht: "Light",
+        neo: "Neon",
+        anime: "Anime"
+    };
 
-  btn.textContent = labels[theme];
+    btn.textContent = labels[theme];
 }
 
 
