@@ -12,6 +12,12 @@
     border-color 0.3s ease;
 }
 
+html {
+  zoom: 1;
+  
+}
+
+
 
 
 /* THEME VARIABLES */
@@ -818,7 +824,7 @@ body {
 
 .app-container {
 
-  max-width: 1200px;
+  max-width: 1000px;
 
   margin: auto;
 }
