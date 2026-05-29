@@ -39,7 +39,11 @@ const emptyState =
     document.querySelector(".empty-state");
 
 //for default date of today
-dateInput.valueAsDate = new Date();
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const dd = String(today.getDate()).padStart(2, '0');
+document.getElementById('date').value = `${yyyy}-${mm}-${dd}`;
 
 //main storing array
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
@@ -799,7 +803,7 @@ function renderComparisonChart() {
 function renderTrendChart() {
 
     const rootStyles = getComputedStyle(document.documentElement);  //for color
-  
+
 
     const monthlyMap = {};
     transactions.forEach(transaction => {
@@ -944,7 +948,7 @@ function renderTrendChart() {
 
                             color: "rgba(255,255,255,0.035)",
                             drawBorder: false,
-                            borderDash: [4,4],
+                            borderDash: [4, 4],
 
                         },
 
@@ -986,65 +990,258 @@ function renderTrendChart() {
 
 // ── Custom Dropdown Logic ──
 function initCustomDropdown(dropdownId, onChange) {
-  const dropdown = document.getElementById(dropdownId);
-  if (!dropdown) return;
+    const dropdown = document.getElementById(dropdownId);
+    if (!dropdown) return;
 
-  const selected = dropdown.querySelector('.dropdown-selected');
-  const list     = dropdown.querySelector('.dropdown-list');
-  const hidden   = dropdown.querySelector('input[type="hidden"]');
-  const items    = dropdown.querySelectorAll('.dropdown-item');
+    const selected = dropdown.querySelector('.dropdown-selected');
+    const list = dropdown.querySelector('.dropdown-list');
+    const hidden = dropdown.querySelector('input[type="hidden"]');
+    const items = dropdown.querySelectorAll('.dropdown-item');
 
-  // Mark first item as selected
-  items[0]?.classList.add('selected');
+    // Mark first item as selected
+    items[0]?.classList.add('selected');
 
-  selected.addEventListener('click', (e) => {
-    e.stopPropagation();
-    // Close all other dropdowns first
-    document.querySelectorAll('.custom-dropdown.open').forEach(d => {
-      if (d !== dropdown) d.classList.remove('open');
+    selected.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Close all other dropdowns first
+        document.querySelectorAll('.custom-dropdown.open').forEach(d => {
+            if (d !== dropdown) d.classList.remove('open');
+        });
+        dropdown.classList.toggle('open');
     });
-    dropdown.classList.toggle('open');
-  });
 
-  items.forEach(item => {
-    item.addEventListener('click', () => {
-      const value = item.dataset.value;
-      const label = item.textContent;
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const value = item.dataset.value;
+            const label = item.textContent;
 
-      selected.textContent = label;
-      selected.insertAdjacentHTML('beforeend',
-        '<span style="display:none">▾</span>'); // keep ::after working
+            selected.textContent = label;
+            selected.insertAdjacentHTML('beforeend',
+                '<span style="display:none">▾</span>'); // keep ::after working
 
-      hidden.value = value;
+            hidden.value = value;
 
-      items.forEach(i => i.classList.remove('selected'));
-      item.classList.add('selected');
+            items.forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
 
-      dropdown.classList.remove('open');
+            dropdown.classList.remove('open');
 
-      // Rebuild ::after (it disappears when we set textContent)
-      // Simpler: just keep the arrow via CSS ::after, textContent is fine
-      selected.textContent = label;
+            // Rebuild ::after (it disappears when we set textContent)
+            // Simpler: just keep the arrow via CSS ::after, textContent is fine
+            selected.textContent = label;
 
-      if (onChange) onChange(value);
+            if (onChange) onChange(value);
+        });
     });
-  });
 
-  // Close on outside click
-  document.addEventListener('click', () => dropdown.classList.remove('open'));
+    // Close on outside click
+    document.addEventListener('click', () => dropdown.classList.remove('open'));
 }
 
 // Init both dropdowns
 document.addEventListener('DOMContentLoaded', () => {
-  initCustomDropdown('category-dropdown');
+    initCustomDropdown('category-dropdown');
 
-  initCustomDropdown('category-filter-dropdown', (value) => {
-    // Trigger your existing filter logic
-    // If your filter listens to 'change' on #category-filter, dispatch it:
-    const hiddenInput = document.getElementById('category-filter');
-    hiddenInput.dispatchEvent(new Event('change'));
-  });
+    initCustomDropdown('category-filter-dropdown', (value) => {
+        // Trigger your existing filter logic
+        // If your filter listens to 'change' on #category-filter, dispatch it:
+        const hiddenInput = document.getElementById('category-filter');
+        hiddenInput.dispatchEvent(new Event('change'));
+    });
 });
+
+
+
+// ── Custom Glass Date Picker ──
+function initDatePicker() {
+  const picker     = document.getElementById('date-picker');
+  const display    = document.getElementById('date-display');
+  const displayTxt = document.getElementById('date-display-text');
+  const hidden     = document.getElementById('date');
+
+  if (!picker) return;
+
+  // ── Move panel to body so backdrop-filter can't trap it ──
+  const panel      = document.getElementById('date-panel');
+  document.body.appendChild(panel);
+  panel.style.position = 'fixed';
+  panel.style.zIndex   = '99999';
+
+  const grid       = panel.querySelector('#date-grid');
+  const monthLabel = panel.querySelector('#month-label');
+  const prevBtn    = panel.querySelector('#prev-month');
+  const nextBtn    = panel.querySelector('#next-month');
+
+  const today = new Date();
+  let current = new Date(today.getFullYear(), today.getMonth(), 1);
+  let selectedDate = new Date(today);
+  hidden.value = formatValue(today);
+  displayTxt.textContent = formatDisplay(today);
+
+  function formatValue(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function formatDisplay(d) {
+    return d.toLocaleDateString('en-IN', {
+      day: '2-digit', month: 'short', year: 'numeric'
+    });
+  }
+
+  function positionPanel() {
+    const rect = display.getBoundingClientRect();
+    panel.style.top   = (rect.bottom + 6) + 'px';
+    panel.style.left  = rect.left + 'px';
+    panel.style.width = rect.width + 'px';
+  }
+
+  function buildGrid() {
+    const year  = current.getFullYear();
+    const month = current.getMonth();
+
+    monthLabel.textContent = current.toLocaleDateString('en-IN', {
+      month: 'long', year: 'numeric'
+    });
+
+    grid.innerHTML = '';
+
+    const firstDay    = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'date-cell empty';
+      grid.appendChild(cell);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'date-cell';
+      cell.textContent = d;
+
+      if (
+        today.getDate() === d &&
+        today.getMonth() === month &&
+        today.getFullYear() === year
+      ) cell.classList.add('today');
+
+      if (
+        selectedDate &&
+        selectedDate.getDate() === d &&
+        selectedDate.getMonth() === month &&
+        selectedDate.getFullYear() === year
+      ) cell.classList.add('selected');
+
+      cell.addEventListener('click', () => {
+        selectedDate = new Date(year, month, d);
+        hidden.value = formatValue(selectedDate);
+        displayTxt.textContent = formatDisplay(selectedDate);
+        panel.style.display = 'none';
+        picker.classList.remove('open');
+        buildGrid();
+        hidden.dispatchEvent(new Event('change'));
+      });
+
+      grid.appendChild(cell);
+    }
+  }
+
+  display.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('.custom-dropdown.open').forEach(d =>
+      d.classList.remove('open')
+    );
+
+    const isOpen = picker.classList.contains('open');
+
+    if (isOpen) {
+      picker.classList.remove('open');
+      panel.style.display = 'none';
+    } else {
+      picker.classList.add('open');
+      panel.style.display = 'block';
+      positionPanel();
+      buildGrid();
+    }
+  });
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    current.setMonth(current.getMonth() - 1);
+    buildGrid();
+  });
+
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    current.setMonth(current.getMonth() + 1);
+    buildGrid();
+  });
+
+  document.addEventListener('click', () => {
+    picker.classList.remove('open');
+    panel.style.display = 'none';
+  });
+
+  panel.addEventListener('click', e => e.stopPropagation());
+
+  // Reposition if user scrolls
+  window.addEventListener('scroll', () => {
+    if (picker.classList.contains('open')) positionPanel();
+  }, true);
+}
+
+// Call inside your DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    initDatePicker();
+    // ... your other init calls
+});
+
+
+const themes = ["dark", "light", "neon", "ink-phantom", "ghibli-rain", "crimson-vigil", "sakura-cliff"];
+
+let currentThemeIndex = 0;
+
+const btn = document.getElementById("themeToggle");
+
+// load saved theme
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme) {
+  applyTheme(savedTheme);
+  currentThemeIndex = themes.indexOf(savedTheme);
+}
+
+btn.addEventListener("click", () => {
+  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+  const theme = themes[currentThemeIndex];
+
+  applyTheme(theme);
+  localStorage.setItem("theme", theme);
+});
+
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.documentElement.removeAttribute("data-theme");
+  } else {
+    document.documentElement.setAttribute("data-theme", theme);
+  }
+
+  updateButtonText(theme);
+}
+
+function updateButtonText(theme) {
+  const labels = {
+    drk: "Dark",
+    liht: "Light",
+    neo: "Neon",
+    anime: "Anime"
+  };
+
+  btn.textContent = labels[theme];
+}
 
 
 

@@ -32,7 +32,7 @@
                 <p>Track your money smarter</p>
             </div>
 
-            <button class="theme-btn">
+            <button class="theme-btn" id="themeToggle">
                 Theme
             </button>
 
@@ -165,9 +165,24 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input id="date" type="date">
+                    <div class="custom-date-picker" id="date-picker">
+                        <div class="date-display" id="date-display">
+                            <span id="date-display-text">Select date</span>
+                            <span class="date-icon">📅</span>
+                        </div>
+                        <div class="date-panel" id="date-panel">
+                            <div class="date-nav">
+                                <button type="button" class="date-nav-btn" id="prev-month">‹</button>
+                                <span class="date-month-label" id="month-label"></span>
+                                <button type="button" class="date-nav-btn" id="next-month">›</button>
+                            </div>
+                            <div class="date-weekdays">
+                                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+                                <span>Th</span><span>Fr</span><span>Sa</span>
+                            </div>
+                            <div class="date-grid" id="date-grid"></div>
+                        </div>
+                        <input type="hidden" id="date" />
                     </div>
 
                 </div>
