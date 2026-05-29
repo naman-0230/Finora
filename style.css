@@ -378,7 +378,7 @@
   /* Background */
   --bg-color: #050708;
   --bg-gradient: none;
-  --bg-image: url('/Finora/photos/ink-phantom.jpg');
+  --bg-image: url('/photos/ink-phantom.jpg');
  
   /* Cards — near-black glass with emerald shimmer */
   --card-base: rgba(5, 10, 8, 0.72);
@@ -463,7 +463,7 @@
   /* Background */
   --bg-color: #0e1812;
   --bg-gradient: none;
-  --bg-image: url('/Finora/photos/ghibli-rainn2.jpg');
+  --bg-image: url('/photos/ghibli-rainn2.jpg');
  
   /* Cards — mossy frosted glass */
   --card-base: rgba(10, 22, 16, 0.68);
@@ -548,7 +548,7 @@
   /* Background */
   --bg-color: #0a0608;
   --bg-gradient: none;
-  --bg-image: url('/Finora/photos/crimson-vigil2.jpg');
+  --bg-image: url('/photos/crimson-vigil2.jpg');
  
   /* Cards — dark graphite glass with crimson edge */
   --card-base: rgba(8, 4, 6, 0.74);
@@ -633,7 +633,7 @@
   /* Background */
   --bg-color: #0d0a0a;
   --bg-gradient: none;
-  --bg-image: url('/Finora/photos/999.jpg');
+  --bg-image: url('/photos/999.jpg');
  
   /* Cards — charcoal ink glass with red blossom shimmer */
   --card-base: rgba(10, 8, 8, 0.70);
@@ -717,7 +717,7 @@
   /* Background */
   --bg-color: #1a0a12;
   --bg-gradient: none;
-  --bg-image: url('/Finora/photos/kuromi.jpg');
+  --bg-image: url('/photos/kuromi.jpg');
 
   /* Cards — dark charcoal glass with pink shimmer */
   --card-base: rgba(15, 6, 12, 0.70);
