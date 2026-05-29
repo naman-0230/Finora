@@ -705,6 +705,92 @@
   --chart-7-border: rgba(160, 130, 100, 0.58);
 }
 
+/* ────────────────────────────────────────────────────────────
+   THEME 5 · KUROMI DREAM
+   Inspired by: kuromi.jpg
+   Palette: bubblegum pink · charcoal black · skull white · cherry red
+   Mood: cute-dark duality, kawaii chaos, soft goth pop
+   ──────────────────────────────────────────────────────────── */
+
+[data-theme="kuromi-dream"] {
+
+  /* Background */
+  --bg-color: #1a0a12;
+  --bg-gradient: none;
+  --bg-image: url('/Finora/photos/kuromi.jpg');
+
+  /* Cards — dark charcoal glass with pink shimmer */
+  --card-base: rgba(15, 6, 12, 0.70);
+  --card-gradient: linear-gradient(
+    145deg,
+    rgba(255, 100, 180, 0.06),
+    rgba(40, 20, 35, 0.02)
+  );
+  --card-border: rgba(255, 100, 180, 0.18);
+  --card-blur: blur(22px);
+  --card-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 120, 180, 0.08);
+  --card-hover-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 120, 180, 0.13);
+  --card-hover: rgba(255, 100, 180, 0.07);
+  --card-border-hover: rgba(255, 100, 180, 0.28);
+
+  /* Text */
+  --text: #ffe8f4;
+  --secondary-text: #c47aa0;
+
+  /* Borders */
+  --border: rgba(255, 100, 180, 0.16);
+
+  /* Financial colours */
+  --income: rgba(255, 180, 220, 0.92);
+  --expense: rgba(220, 40, 100, 0.90);
+
+  /* Accent — kuromi pink */
+  --accent: #ff4da6;
+
+  /* Dropdown */
+  --dropdown-bg: #120610;
+
+  /* Shadow */
+  --shadow: 0px 4px 24px rgba(0, 0, 0, 0.50);
+
+  /* Chart empty track */
+  --chart-empty: rgba(255, 255, 255, 0.04);
+
+  /* HOT PINK — primary */
+  --chart-1:        rgba(255, 77, 166, 0.15);
+  --chart-1-border: rgba(255, 77, 166, 0.82);
+
+  /* CHERRY RED — expense */
+  --chart-2:        rgba(220, 40, 80, 0.15);
+  --chart-2-border: rgba(220, 40, 80, 0.80);
+
+  /* CHARCOAL BLACK */
+  --chart-3:        rgba(60, 45, 55, 0.20);
+  --chart-3-border: rgba(60, 45, 55, 0.75);
+
+  /* SKULL WHITE */
+  --chart-4:        rgba(240, 225, 235, 0.12);
+  --chart-4-border: rgba(240, 225, 235, 0.65);
+
+  /* BUBBLEGUM LIGHT PINK */
+  --chart-5:        rgba(255, 180, 220, 0.13);
+  --chart-5-border: rgba(255, 180, 220, 0.68);
+
+  /* DEEP MAGENTA */
+  --chart-6:        rgba(180, 20, 100, 0.14);
+  --chart-6-border: rgba(180, 20, 100, 0.70);
+
+  /* LAVENDER BLUSH */
+  --chart-7:        rgba(200, 160, 190, 0.11);
+  --chart-7-border: rgba(200, 160, 190, 0.58);
+}
+
+
+
 /* BODY */
 
 body {

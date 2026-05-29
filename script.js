@@ -1205,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const themes = ["dark", "neon", "ink-phantom", "ghibli-rain", "crimson-vigil", "sakura-cliff", "light"];
+const themes = ["dark", "neon", "ink-phantom", "ghibli-rain", "crimson-vigil", "sakura-cliff", "kuromi-dream", "light"];
 
 let currentThemeIndex = 0;
 
