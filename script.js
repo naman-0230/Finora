@@ -1249,6 +1249,26 @@ function updateButtonText(theme) {
 }
 
 
+// export feature
+
+document.getElementById('export-btn').addEventListener('click', () => {
+  const headers = ['Description', 'Amount', 'Type', 'Category', 'Date', 'Note'];
+  const rows = transactions.map(t => [
+    t.description, t.amount, t.type, t.category, t.date, t.note || ''
+  ]);
+
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'finora-transactions.csv';
+  a.click();
+
+  URL.revokeObjectURL(url);
+});
+
 
 renderTransactions();
 updateBalance();

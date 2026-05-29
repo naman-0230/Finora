@@ -1140,6 +1140,22 @@ textarea {
 
 /* TRANSACTION ITEM */
 
+.export-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+.export-btn:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .transaction-list {
 
   display: flex;

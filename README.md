@@ -27,23 +27,17 @@ Finora is a modern frontend-based personal finance dashboard built using HTML, C
 - Search transactions instantly
 - Date-based filtering and sorting
 
-4. Borrow & Lend Tracker
-- Track money borrowed from friends
-- Track money lent to friends
-- Running balances per person
-- Settlement management
-
-5. UI & Experience
+4. UI & Experience
 - Responsive design
 - Multiple themes
 - Smooth animations
 - Empty states and validations
 - Glassmorphism-inspired interface
 
- 6. Data Management
+ 5. Data Management
 - LocalStorage persistence
 - Export transactions as JSON/CSV
-- Undo delete functionality
+
 
 ---
 
@@ -72,8 +66,7 @@ This project focuses on:
 - Dark
 - Light
 - Neon
-- Space
-- Anime Themes
+- Anime/Ghibli Themes
 
 
 ```
