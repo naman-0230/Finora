@@ -917,7 +917,7 @@ button {
   font-weight: 550;
 }
 
-.balance-card p {
+.balance-card > p {
 
   font-size: 2rem;
 
@@ -931,6 +931,122 @@ button {
 .expense p {
   color: var(--expense);
 }
+
+/* Budget Card */
+.balance-card.budget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.budget-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.budget-spent {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.budget-of {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--secondary-text);
+}
+
+.budget-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.budget-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+.budget-bar-fill.warning {
+  background: #f59e0b;
+}
+
+.budget-bar-fill.danger {
+  background: var(--expense);
+}
+
+.budget-status {
+  font-size: 22px;
+  color: var(--secondary-text);
+  margin: 0;
+  min-height: 14px;
+}
+
+.budget-status.warning {
+  color: #f59e0b;
+}
+
+.budget-status.danger {
+  color: var(--expense);
+}
+
+.budget-set {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.budget-set input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.budget-set input:focus {
+  border-color: var(--accent);
+}
+
+.budget-set input::placeholder {
+  color: var(--secondary-text);
+  font-size: 12px;
+}
+
+#budget-save-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+#budget-save-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+
+
+
+
+
 
 /*chart section*/
 

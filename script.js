@@ -129,6 +129,7 @@ function addTransaction() {
 
     renderTransactions();
     updateBalance();
+    updateBudgetUI();
     renderExpenseChart();
     renderComparisonChart();
     renderTrendChart();
@@ -170,6 +171,7 @@ function renderTransactions() {
         emptyState.style.display = "block";
         console.log("hola");
         updateBalance(); // still update balance even if empty
+        updateBudgetUI();
         return;
     }
     else {
@@ -232,6 +234,7 @@ function renderTransactions() {
     console.log("totalEl:", totalEl);
 
     updateBalance();
+    updateBudgetUI();
 }
 
 transactionList.addEventListener("click", function (e) {
@@ -266,6 +269,7 @@ function deleteTransaction(id) {
 
     renderTransactions();
     updateBalance();
+    updateBudgetUI();
     renderExpenseChart();
     renderComparisonChart();
     renderTrendChart();
@@ -1249,6 +1253,83 @@ function updateButtonText(theme) {
 }
 
 
+
+// ── Budget Feature ──
+let monthlyBudget = Number(localStorage.getItem('budget')) || 0;
+
+const budgetBar    = document.getElementById('budget-bar');
+const budgetStatus = document.getElementById('budget-status');
+const budgetInput  = document.getElementById('budget-input');
+const budgetSaveBtn = document.getElementById('budget-save-btn');
+
+function getCurrentMonthExpenses() {
+  const now = new Date();
+  return transactions
+    .filter(t => {
+      if (t.type !== 'expense') return false;
+      const d = new Date(t.date);
+      return (
+        d.getMonth() === now.getMonth() &&
+        d.getFullYear() === now.getFullYear()
+      );
+    })
+    .reduce((sum, t) => sum + t.amount, 0);
+}
+
+function updateBudgetUI() {
+  const spent = getCurrentMonthExpenses();
+  const limit = monthlyBudget;
+
+  // update spent text
+  document.querySelector('.budget-spent').innerHTML =
+    `₹${spent.toLocaleString('en-IN')} <span class="budget-of">of ₹${limit > 0 ? limit.toLocaleString('en-IN') : '—'}</span>`;
+
+  if (limit <= 0) {
+    budgetBar.style.width = '0%';
+    budgetBar.className = 'budget-bar-fill';
+    budgetStatus.textContent = 'No limit set';
+    budgetStatus.className = 'budget-status';
+    return;
+  }
+
+  const pct = Math.min((spent / limit) * 100, 100);
+  budgetBar.style.width = pct + '%';
+
+  // states
+  if (spent >= limit) {
+    budgetBar.className = 'budget-bar-fill danger';
+    budgetStatus.textContent = `⚠ Over budget by ₹${(spent - limit).toLocaleString('en-IN')}`;
+    budgetStatus.className = 'budget-status danger';
+  } else if (pct >= 80) {
+    budgetBar.className = 'budget-bar-fill warning';
+    budgetStatus.textContent = `Almost there — ${Math.round(100 - pct)}% remaining`;
+    budgetStatus.className = 'budget-status warning';
+  } else {
+    budgetBar.className = 'budget-bar-fill';
+    budgetStatus.textContent = `₹${(limit - spent).toLocaleString('en-IN')} remaining this month`;
+    budgetStatus.className = 'budget-status';
+  }
+}
+
+budgetSaveBtn.addEventListener('click', () => {
+  const val = Number(budgetInput.value);
+  if (!val || val <= 0) return;
+  monthlyBudget = val;
+  localStorage.setItem('budget', val);
+  budgetInput.value = '';
+  updateBudgetUI();
+});
+
+// allow Enter key too
+budgetInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') budgetSaveBtn.click();
+});
+
+
+
+
+
+
 // export feature
 
 document.getElementById('export-btn').addEventListener('click', () => {
@@ -1272,6 +1353,7 @@ document.getElementById('export-btn').addEventListener('click', () => {
 
 renderTransactions();
 updateBalance();
+updateBudgetUI();
 renderExpenseChart();
 renderComparisonChart();
 renderTrendChart();
